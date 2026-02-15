@@ -21,7 +21,7 @@ def train_model(model, X_train, y_train, X_val, y_val):
             patience=10
         ),
         ModelCheckpoint(
-            "best_dna.keras",
+            "output/dna.keras",
             monitor="val_pr_auc",
             mode="max",
             save_best_only=True,
