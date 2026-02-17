@@ -1,4 +1,8 @@
-creating a virtual environment & jupyter kernel:
+Operating System: Windows 11 (64-bit)
+Python version: 3.12.6
+JupyterLab version: 4.5.0
+
+create a virtual environment (jupyter kernel):
 1. go to project root
 2. python3 -m venv .venv
 3. source .venv/bin/activate
@@ -7,9 +11,7 @@ creating a virtual environment & jupyter kernel:
 6. pip install ipykernel
 7. python -m ipykernel install --user --name=triplex --display-name "Python (triplex)"
 
-Note: files starting with . are hidden:
+now, use the "Python (triplex)" kernel to run the notebooks present in this repository.
 
-check  $ ls -la 
-view   $ cat .filename
-delete $ rm -rf .filename
+
 

@@ -1,6 +1,5 @@
 tensorflow==2.18.0
 biopython==1.85
-livelossplot==0.5.6
-seaborn==0.13.2
+numpy==2.0.2
+matplotlib==3.10.8
 scikit-learn==1.6.1
-gradio==5.31.0
