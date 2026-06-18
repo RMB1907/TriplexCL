@@ -42,3 +42,51 @@ def compile_model(model):
     )
     
     return model
+
+def binary_focal_loss(gamma=2.0, alpha=0.75):
+    def loss(y_true, y_pred):
+        y_true = tf.cast(y_true, tf.float32)
+
+        epsilon = tf.keras.backend.epsilon()
+        y_pred = tf.clip_by_value(y_pred, epsilon, 1.0 - epsilon)
+
+        pt = tf.where(
+            tf.equal(y_true, 1),
+            y_pred,
+            1.0 - y_pred
+        )
+
+        alpha_t = tf.where(
+            tf.equal(y_true, 1),
+            alpha,
+            1.0 - alpha
+        )
+
+        focal_weight = alpha_t * tf.pow(1.0 - pt, gamma)
+
+        return tf.reduce_mean(
+            -focal_weight * tf.math.log(pt)
+        )
+
+    return loss
+
+
+def compile_focal(model, lr=1e-3, gamma=2.0, alpha=0.75):
+
+    optimizer = Adam(learning_rate=lr)
+    
+    model.compile(
+        optimizer=optimizer,
+        loss=binary_focal_loss(
+            gamma=gamma,
+            alpha=alpha
+        ),
+        metrics=[
+            tf.keras.metrics.AUC(curve='PR', name='pr_auc'),
+            tf.keras.metrics.AUC(name='roc_auc'),
+            tf.keras.metrics.Precision(),
+            tf.keras.metrics.Recall(),
+        ]
+    )
+
+    return model
